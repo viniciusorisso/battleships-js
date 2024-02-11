@@ -7,3 +7,8 @@ export enum GamePossibleStates {
   RUNNING = 1,
   FINISHED = 2,
 }
+
+export enum ShipDirections {
+  VERTICAL = "VERTICAL",
+  HORIZONTAL = "HORIZONTAL",
+}

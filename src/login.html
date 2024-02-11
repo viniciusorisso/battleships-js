@@ -10,17 +10,22 @@
       <input type="text" name="username" id="" placeholder="Username" />
       <button type="submit">Jogar</button>
     </form>
-    <button type="button" id="move">move</button>
+
+    <form>
+      <input type="text" name="posX" id="posX" placeholder="posX" />
+      <input type="text" name="posY" id="posY" placeholder="posY" />
+      <button type="button" id="shoot">atirar</button>
+    </form>
     <script src="/socket.io/socket.io.js"></script>
     <script>
       const form = document.querySelector('form')
-      const moveBtn = document.getElementById('move')
+      const shootBtn = document.getElementById('shoot')
       form.addEventListener('submit', submit)
-      moveBtn.addEventListener('click', move)
+      shootBtn.addEventListener('click', shoot)
       const socket = io()
       let username = ''
-      socket.on('map', (map) => {
-        console.log(map)
+      socket.on('map', (board) => {
+        console.log(board.map((el) => el.join('  ')).join('\n'))
       })
       socket.emit('map')
 
@@ -39,8 +44,11 @@
         socket.emit('username', { username })
       }
 
-      function move() {
-        socket.emit('shoot', { username, position: { x: 0, y: 0 } })
+      function shoot() {
+        const posX = document.getElementById('posX').value
+        const posY = document.getElementById('posY').value
+
+        socket.emit('shoot', { username, position: { x: posX, y: posY } })
       }
     </script>
   </body>

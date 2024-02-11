@@ -29,6 +29,7 @@ class App {
 
       socket.on("map", () => {
         const state = boardMap.currentMap;
+
         socket.emit("map", state);
       });
 
@@ -44,8 +45,11 @@ class App {
         "shoot",
         (args: { username: string; position: Coordinates }) => {
           const { username, position } = args;
+
           boardMap.shoot(username, position);
+
           const state = boardMap.currentMap;
+
           socket.emit("map", state);
         }
       );
