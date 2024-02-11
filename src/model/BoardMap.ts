@@ -1,4 +1,5 @@
 import { GamePossibleStates } from "../utils/constants";
+import Coordinates from "./Coordinates";
 
 export default class BoardMap {
   #boardSize: number;
@@ -11,12 +12,25 @@ export default class BoardMap {
     this.#startMap();
   }
 
-  #startMap() {
-    const lines = new Array(20).fill(0);
-    this.#map = new Array(20).fill([...lines]);
+  #startMap(): void {
+    this.#map = Array.from(Array(20), () => new Array(20).fill(0));
   }
 
   get currentMap(): Array<Array<number>> {
     return this.#map;
+  }
+
+  shoot(username: string, position: Coordinates): void {
+    // checks if position is valid
+    if (position.x > 19 || position.y > 19) return;
+    if (position.y < 0 || position.y < 0) return;
+
+    // 2 cells ship static
+    this.#map[18][0] = 2;
+    this.#map[19][0] = 2;
+
+    // 3 cells ship static
+    this.#map[14][10] = 3;
+    this.#map[15][10] = 3;
   }
 }

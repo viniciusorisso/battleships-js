@@ -2,6 +2,7 @@ import express, { Application } from "express";
 import http from "http";
 import { Server } from "socket.io";
 import BoardMap from "./model/BoardMap";
+import Coordinates from "./model/Coordinates";
 
 const boardMap = new BoardMap();
 
@@ -27,8 +28,8 @@ class App {
       console.log("user connected", socket.id);
 
       socket.on("map", () => {
-        const map = boardMap.currentMap;
-        socket.emit("map", map);
+        const state = boardMap.currentMap;
+        socket.emit("map", state);
       });
 
       socket.on("username", (arg: { username: string }) => {
@@ -36,8 +37,18 @@ class App {
 
         socket.data.username = username;
 
-        socket.emit("created");
+        socket.emit("created", { username });
       });
+
+      socket.on(
+        "shoot",
+        (args: { username: string; position: Coordinates }) => {
+          const { username, position } = args;
+          boardMap.shoot(username, position);
+          const state = boardMap.currentMap;
+          socket.emit("map", state);
+        }
+      );
     });
   }
 
