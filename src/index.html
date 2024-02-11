@@ -4,13 +4,38 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
+    <style>
+      body{
+        display: flex;
+        justify-content: center;
+      }
+      canvas{
+        border: 1px solid black;
+      }
+    </style>
   </head>
-  <body>
-    <li>texto</li>
-
-    <script src="/socket.io/socket.io.js"></script>
-    <script>
-      const socket = io()
+  <body onload="draw()">
+    <canvas id="canvas" width="820" height="820"></canvas>
+    <script type="text/javascript">
+      var bw = 800;
+      var bh = 800;
+      var p = 10;
+      var canvas = document.getElementById("canvas");
+      var context = canvas.getContext("2d");
+      function draw(){
+        for (var x= 0; x <=bw ; x+=80 ){
+          context.moveTo( 0.5 + x + p, p);
+          context.lineTo(0.5 + x + p, bh + p);
+        }
+        for (var x= 0; x <=bh ; x+=80 ){
+          context.moveTo(p, 0.5 + x + p);
+          context.lineTo(bw + p, 0.5 + x + p);
+        }
+        context.strokeStyle = "black";
+        context.stroke();
+      }
     </script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>const socket = io();</script>
   </body>
 </html>
